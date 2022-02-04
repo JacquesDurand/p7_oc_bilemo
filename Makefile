@@ -1,38 +1,3 @@
-# Makefile
-
-Here is a Makefile template. It provides some shortcuts for the most common tasks.
-To use it, create a new `Makefile` file at the root of your project. Copy/paste
-the content in the template section. To view all the available commands, run `make`.
-
-For example, in the [getting started section](/README.md#getting-started), the
-`docker-composer` commands could be replaced by:
-
-1. Run `make build` to build fresh images
-2. Run `make up` (detached mode without logs)
-3. Run `make down` to stop the Docker containers
-
-Of course, this template is basic for now. But, as your application is growing,
-you will probably want to add some targets like running your tests as described
-in [the Symfony book](https://symfony.com/doc/current/the-fast-track/en/17-tests.html#automating-your-workflow-with-a-makefile).
-You can also find a more complete example in this [snippet](https://www.strangebuzz.com/en/snippets/the-perfect-makefile-for-symfony).
-
-If you want to run make from within the `php` container, in the [Dockerfile](/Dockerfile),
-add:
-
-```diff
-gnu-libiconv \
-+make \
-```
-
-And rebuild the PHP image.
-
-**PS**: If using Windows, you have to install [chocolatey.org](https://chocolatey.org/)
-or use [Cygwin](http://cygwin.com) to use the `make` command. Check out this
-[StackOverflow question](https://stackoverflow.com/q/2532234/633864) for more explanations. 
-
-## The template
-
-```Makefile
 # Executables (local)
 DOCKER_COMP = docker-compose
 
@@ -46,7 +11,7 @@ SYMFONY  = $(PHP_CONT) bin/console
 
 # Misc
 .DEFAULT_GOAL = help
-.PHONY        = help build up start down logs sh composer vendor sf cc
+.PHONY        = help build up start down logs sh composer vendor sf cc db-reset deptrac php-cs-fixer
 
 ## —— 🎵 🐳 The Symfony-docker Makefile 🐳 🎵 ——————————————————————————————————
 help: ## Outputs this help screen
@@ -86,4 +51,25 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 
 cc: c=c:c ## Clear the cache
 cc: sf
-```
+
+## —— Doctrine 🎵 ———————————————————————————————————————————————————————————————
+db-reset: ## Reset database
+	@$(SYMFONY) doctrine:database:drop --force --if-exists -nq
+	@$(SYMFONY) doctrine:database:create -nq
+	@$(SYMFONY) doctrine:migrations:migrate -nq
+	@$(SYMFONY) doctrine:fixtures:load -nq
+
+## —— Deptrac 🎵 ———————————————————————————————————————————————————————————————
+deptrac: ## Run layers depedencies analysis
+	@echo "\n\e[7mChecking DDD layers...\e[0m"
+	@$(PHP_CONT) vendor/bin/deptrac analyze --fail-on-uncovered --report-uncovered --no-progress --config-file=depfile_ddd.yaml
+	@echo "\n\e[7mChecking Bounded context layers...\e[0m"
+	@$(PHP_CONT) vendor/bin/deptrac analyze --fail-on-uncovered --report-uncovered --no-progress --config-file=depfile_bc.yaml
+
+## —— PHP-CS-Fixer 🎵 ———————————————————————————————————————————————————————————————
+php-cs-fixer: ## Fix PHP code style
+	@$(PHP_CONT) vendor/bin/php-cs-fixer fix
+
+## —— PHPUnit 🎵 ———————————————————————————————————————————————————————————————
+phpunit: ## Run tests
+	@$(PHP_CONT) bin/phpunit
