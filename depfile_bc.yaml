@@ -1,0 +1,31 @@
+parameters:    
+    paths: [ src ]
+    
+    layers:
+        - name: Phone
+          collectors:
+              - type: directory
+                regex: src/[^/]+/Phone/.*
+    
+        - name: Stock
+          collectors:
+              - type: directory
+                regex: src/[^/]+/Stock/.*
+    
+        - name: Shared
+          collectors:
+              - type: directory
+                regex: src/[^/]+/Shared/.*
+    
+        - name: Vendors
+          collectors:
+              - { type: className, regex: ^ApiPlatform\\ }
+              - { type: className, regex: ^Doctrine\\ }
+              - { type: className, regex: ^Symfony\\ }
+              - { type: className, regex: ^Zenstruck\\ }
+              - { type: className, regex: ^Ramsey\\ }
+    
+    ruleset:
+        Phone: [ Shared, Vendors ]
+        Stock: [ Shared, Vendors ]
+        Shared: [ Vendors ]

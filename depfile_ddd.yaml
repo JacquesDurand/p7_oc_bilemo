@@ -1,0 +1,40 @@
+parameters:
+    paths: [ src ]
+    
+    layers:
+        - name: Application
+          collectors:
+              - type: directory
+                regex: src/Application/.*
+    
+        - name: Domain
+          collectors:
+              - type: directory
+                regex: src/Domain/.*
+    
+        - name: Infrastructure
+          collectors:
+              - type: directory
+                regex: src/Infrastructure/.*
+    
+        - name: Vendor
+          collectors:
+              - { type: className, regex: ^ApiPlatform\\(?!Core\\Annotation) }
+              - { type: className, regex: ^Doctrine\\(?!ORM\\Mapping) }
+              - { type: className, regex: ^Symfony\\(?!Component\\Validator\\Constraints) }
+              - { type: className, regex: ^Zenstruck\\ }
+    
+        - name: Helpers
+          collectors:
+              - { type: className, regex: ^Ramsey\\Uuid\\ }
+    
+        - name: Attributes
+          collectors:
+              - { type: className, regex: ^ApiPlatform\\Core\\Annotation }
+              - { type: className, regex: ^Doctrine\\ORM\\Mapping }
+              - { type: className, regex: ^Symfony\\Component\\Validator\\Constraints }
+    
+    ruleset:
+        Application: [ Domain, Helpers, Attributes ]
+        Infrastructure: [ Domain, Application, Vendor, Helpers, Attributes ]
+        Domain: [ Helpers, Attributes ]
