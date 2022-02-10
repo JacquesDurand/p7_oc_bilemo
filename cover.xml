@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1644508967">
+  <project timestamp="1644508967">
+    <file name="/srv/app/src/Domain/Customer/Model/Customer.php">
+      <class name="App\Domain\Customer\Model\Customer" namespace="global">
+        <metrics complexity="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </class>
+      <metrics loc="9" ncloc="9" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/srv/app/src/Domain/Phone/Exception/InvalidPriceException.php">
+      <class name="App\Domain\Phone\Exception\InvalidPriceException" namespace="global">
+        <metrics complexity="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </class>
+      <metrics loc="11" ncloc="11" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/srv/app/src/Domain/Phone/Model/Phone.php">
+      <class name="App\Domain\Phone\Model\Phone" namespace="global">
+        <metrics complexity="9" methods="9" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="10" elements="25" coveredelements="13"/>
+      </class>
+      <line num="24" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="31" type="stmt" count="1"/>
+      <line num="32" type="stmt" count="1"/>
+      <line num="33" type="stmt" count="1"/>
+      <line num="34" type="stmt" count="1"/>
+      <line num="35" type="stmt" count="1"/>
+      <line num="36" type="stmt" count="1"/>
+      <line num="37" type="stmt" count="1"/>
+      <line num="39" type="method" name="getId" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="41" type="stmt" count="0"/>
+      <line num="44" type="method" name="getBuilder" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="46" type="stmt" count="0"/>
+      <line num="49" type="method" name="getModel" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="51" type="stmt" count="0"/>
+      <line num="54" type="method" name="getColor" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="56" type="stmt" count="0"/>
+      <line num="59" type="method" name="getDescription" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="61" type="stmt" count="1"/>
+      <line num="64" type="method" name="changeDescription" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="66" type="stmt" count="1"/>
+      <line num="67" type="stmt" count="1"/>
+      <line num="69" type="method" name="getPrice" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="71" type="stmt" count="0"/>
+      <line num="74" type="method" name="getFormattedPrice" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="76" type="stmt" count="0"/>
+      <metrics loc="78" ncloc="78" classes="1" methods="9" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="10" elements="25" coveredelements="13"/>
+    </file>
+    <file name="/srv/app/src/Domain/Phone/ValueObject/Price.php">
+      <class name="App\Domain\Phone\ValueObject\Price" namespace="global">
+        <metrics complexity="5" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="11" coveredelements="11"/>
+      </class>
+      <line num="15" type="method" name="__construct" visibility="public" complexity="2" crap="2" count="4"/>
+      <line num="17" type="stmt" count="4"/>
+      <line num="18" type="stmt" count="1"/>
+      <line num="20" type="stmt" count="3"/>
+      <line num="21" type="stmt" count="3"/>
+      <line num="23" type="method" name="getPriceInCents" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="25" type="stmt" count="1"/>
+      <line num="28" type="method" name="getPrice" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="30" type="stmt" count="1"/>
+      <line num="33" type="method" name="__toString" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="35" type="stmt" count="1"/>
+      <metrics loc="37" ncloc="37" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="11" coveredelements="11"/>
+    </file>
+    <file name="/srv/app/src/Domain/Reseller/Model/Reseller.php">
+      <class name="App\Domain\Reseller\Model\Reseller" namespace="global">
+        <metrics complexity="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </class>
+      <metrics loc="9" ncloc="9" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/srv/app/src/InfraStructure/Shared/Kernel.php">
+      <class name="App\InfraStructure\Shared\Kernel" namespace="global">
+        <metrics complexity="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </class>
+      <metrics loc="13" ncloc="13" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <metrics files="6" loc="157" ncloc="157" classes="2" methods="13" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="23" coveredstatements="17" elements="36" coveredelements="24"/>
+  </project>
+</coverage>

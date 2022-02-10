@@ -40,3 +40,21 @@ jobs:
             run: curl -v -o /dev/null http://localhost
           - name: Check HTTPS reachability
             run: curl -vk /dev/null https://localhost
+
+#  test:
+#    name: PhpUnitTests
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: Pull images
+#        run: docker-compose pull
+#      - name: Start services
+#        run: make start
+#      - name: Tests
+#        run: make phpunit-coverage
+#      - name: Upload to codecov.io
+#        uses: codecov/codecov-action@v2
+#        with:
+#          token: ${{secrets.CODECOV_TOKEN}}
+#          fail_ci_if_error: true

@@ -11,7 +11,7 @@ SYMFONY  = $(PHP_CONT) bin/console
 
 # Misc
 .DEFAULT_GOAL = help
-.PHONY        = help build up start down logs sh composer vendor sf cc db-reset deptrac php-cs-fixer
+.PHONY        = help build up start down logs sh composer vendor sf cc db-reset deptrac php-cs-fixer phpunit phpunit-coverage
 
 ## —— 🎵 🐳 The Symfony-docker Makefile 🐳 🎵 ——————————————————————————————————
 help: ## Outputs this help screen
@@ -73,3 +73,7 @@ php-cs-fixer: ## Fix PHP code style
 ## —— PHPUnit 🎵 ———————————————————————————————————————————————————————————————
 phpunit: ## Run tests
 	@$(PHP_CONT) bin/phpunit
+
+## —— PHPUnit 🎵 ———————————————————————————————————————————————————————————————
+phpunit-coverage: ## Run tests with coverage
+	docker-compose exec -T php bin/phpunit --coverage-clover cover.xml
