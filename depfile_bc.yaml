@@ -7,10 +7,15 @@ parameters:
               - type: directory
                 regex: src/[^/]+/Phone/.*
     
-        - name: Stock
+        - name: Reseller
           collectors:
               - type: directory
-                regex: src/[^/]+/Stock/.*
+                regex: src/[^/]+/Reseller/.*
+
+        - name: Customer
+          collectors:
+              - type: directory
+                regex: src/[^/]+/Customer/.*
     
         - name: Shared
           collectors:
@@ -27,5 +32,6 @@ parameters:
     
     ruleset:
         Phone: [ Shared, Vendors ]
-        Stock: [ Shared, Vendors ]
+        Customer: [ Shared, Vendors ]
+        Reseller: [ Shared, Vendors ]
         Shared: [ Vendors ]
