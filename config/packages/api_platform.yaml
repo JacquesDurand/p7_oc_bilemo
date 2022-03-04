@@ -1,7 +1,18 @@
 api_platform:
+    resource_class_directories:
+        - '%kernel.project_dir%/src/Entity'
+
+    doctrine:
+        # To enable or disable Doctrine ORM support.
+        enabled: true
     mapping:
         paths: []
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+    enable_swagger: true
+    enable_swagger_ui: true
+    enable_re_doc: true
+    enable_entrypoint: true
+    enable_docs: true
