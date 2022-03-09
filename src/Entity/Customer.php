@@ -4,34 +4,52 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CustomerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => ['security' => "is_granted('ROLE_ADMIN') or object.reseller == user"],
+        'post' => ['security' => "is_granted('ROLE_ADMIN') or object.reseller == user"],
+    ],
+    itemOperations: [
+        'get' => ['security' => "is_granted('ROLE_ADMIN') or object.reseller == user"],
+        'put' => ['security' => "is_granted('ROLE_ADMIN') or object.reseller == user"],
+        'delete' => ['security' => "is_granted('ROLE_ADMIN') or object.reseller == user"],
+    ],
+    denormalizationContext: [
+        'groups' => ['customer:write'],
+    ],
+    normalizationContext: [
+        'groups' => ['customer:read'],
+    ]
+)]
 class Customer
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups('customer:read')]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['customer:read', 'customer:write'])]
     private $email;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups('customer:write')]
     private $password;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['customer:read', 'customer:write'])]
     private $phoneNumber;
 
-    #[ORM\ManyToMany(targetEntity: Reseller::class, mappedBy: 'customers')]
-    private $resellers;
+    #[ORM\ManyToOne(targetEntity: Reseller::class, inversedBy: 'cutomers')]
+    private $reseller;
 
     public function __construct()
     {
-        $this->resellers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -75,29 +93,15 @@ class Customer
         return $this;
     }
 
-    /**
-     * @return Collection<int, Reseller>
-     */
-    public function getResellers(): Collection
+    public function getReseller(): Reseller
     {
-        return $this->resellers;
+        return $this->reseller;
     }
 
-    public function addReseller(Reseller $reseller): self
+    public function setReseller(Reseller $reseller): self
     {
-        if (!$this->resellers->contains($reseller)) {
-            $this->resellers[] = $reseller;
-            $reseller->addCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReseller(Reseller $reseller): self
-    {
-        if ($this->resellers->removeElement($reseller)) {
-            $reseller->removeCustomer($this);
-        }
+        $this->reseller = $reseller;
+        $reseller->addCustomer($this);
 
         return $this;
     }

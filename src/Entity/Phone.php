@@ -7,7 +7,14 @@ use App\Repository\PhoneRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PhoneRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => ['security' => "is_granted('IS_AUTHENTICATED_FULLY')"],
+    ],
+    itemOperations: [
+        'get' => ['security' => "is_granted('IS_AUTHENTICATED_FULLY')"],
+    ]
+)]
 class Phone
 {
     #[ORM\Id]
