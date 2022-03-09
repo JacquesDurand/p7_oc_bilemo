@@ -26,7 +26,7 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private $password;
 
-    #[ORM\ManyToMany(targetEntity: Customer::class, inversedBy: 'resellers')]
+    #[ORM\OneToMany(targetEntity: Customer::class, mappedBy: 'reseller')]
     private $customers;
 
     public function __construct()
