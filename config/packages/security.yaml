@@ -17,28 +17,30 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-            
         docs:
             pattern: ^/api/docs
             security: false
             
-        login:
-            pattern: ^/api/login
-            stateless: true
+        main:
+            pattern: /api/login
+            provider: app_user_provider
             json_login:
-                check_path: /api/login_check # or api_login_check as defined in config/routes.yaml
+                check_path: /api/login_check
+                username_path: storeName
+                password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-
+                
         api:
-            pattern: ^/api
+            pattern: ^/api/
             stateless: true
+            provider: app_user_provider
             jwt: ~
 
     access_control:
-        - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api/docs,       roles: PUBLIC_ACCESS }
+        - { path: ^/docs, roles: PUBLIC_ACCESS } # Allows accessing API documentations and Swagger UI
+        - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
 
 when@test:

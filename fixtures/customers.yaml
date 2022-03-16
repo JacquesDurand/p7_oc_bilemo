@@ -1,0 +1,8 @@
+App\Entity\Customer:
+    customer_{1..9}:
+        email: <email()>
+        password: <hashPassword(word())>
+        phoneNumber: <phoneNumber()>
+        reseller: '@reseller_*'
+
+

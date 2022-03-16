@@ -1,0 +1,7 @@
+App\Entity\Phone:
+    phone_{1..100}:
+        builder: <company()>
+        model: <word()>
+        description: <text()>
+        color: <safeColorName()>
+        price: <randomNumber(5)>

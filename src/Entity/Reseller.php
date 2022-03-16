@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ResellerRepository::class)]
 class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
@@ -28,6 +29,9 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(targetEntity: Customer::class, mappedBy: 'reseller')]
     private $customers;
+
+    #[Groups('reseller:write')]
+    private $plainPassword;
 
     public function __construct()
     {
@@ -95,13 +99,9 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials()
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     /**
@@ -126,5 +126,15 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
         $this->customers->removeElement($customer);
 
         return $this;
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
     }
 }
