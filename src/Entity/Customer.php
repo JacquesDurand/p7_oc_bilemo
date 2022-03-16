@@ -5,19 +5,23 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
+#[ORM\EntityListeners(['App\Doctrine\EntityListener\CustomerEntityListener'])]
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => "is_granted('ROLE_ADMIN') or object.reseller == user"],
-        'post' => ['security' => "is_granted('ROLE_ADMIN') or object.reseller == user"],
+        'get' => [],
+        'post' => [],
     ],
     itemOperations: [
-        'get' => ['security' => "is_granted('ROLE_ADMIN') or object.reseller == user"],
-        'put' => ['security' => "is_granted('ROLE_ADMIN') or object.reseller == user"],
-        'delete' => ['security' => "is_granted('ROLE_ADMIN') or object.reseller == user"],
+        'get' => [],
+        'put' => [],
+        'delete' => [],
     ],
+    attributes: ['pagination_enabled' => false],
     denormalizationContext: [
         'groups' => ['customer:write'],
     ],
@@ -25,7 +29,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'groups' => ['customer:read'],
     ]
 )]
-class Customer
+class Customer implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -38,15 +42,18 @@ class Customer
     private $email;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups('customer:write')]
     private $password;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['customer:read', 'customer:write'])]
     private $phoneNumber;
 
-    #[ORM\ManyToOne(targetEntity: Reseller::class, inversedBy: 'cutomers')]
+    #[ORM\ManyToOne(targetEntity: Reseller::class, inversedBy: 'customers')]
     private $reseller;
+
+    #[Groups('customer:write')]
+    #[SerializedName('password')]
+    private $plainPassword;
 
     public function __construct()
     {
@@ -93,7 +100,7 @@ class Customer
         return $this;
     }
 
-    public function getReseller(): Reseller
+    public function getReseller(): ?Reseller
     {
         return $this->reseller;
     }
@@ -104,5 +111,22 @@ class Customer
         $reseller->addCustomer($this);
 
         return $this;
+    }
+
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    public function eraseCredentials()
+    {
+        $this->plainPassword = null;
     }
 }

@@ -1,0 +1,7 @@
+App\Entity\Reseller:
+    reseller_{1..9}:
+        storeName: <company()>
+        password: <hashPassword(word())>
+    reseller_admin:
+        storeName: "admin"
+        password: <hashPassword('admin')>
