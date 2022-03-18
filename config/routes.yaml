@@ -9,3 +9,7 @@ kernel:
 api_login_check:
     path: /api/login_check
     methods: ['POST']
+
+api_admin_login:
+    path: /api/admin_login
+    methods: ['POST']
