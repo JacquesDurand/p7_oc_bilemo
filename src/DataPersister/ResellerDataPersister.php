@@ -25,7 +25,10 @@ class ResellerDataPersister implements DataPersisterInterface
         return $data instanceof Reseller;
     }
 
-    public function persist($data)
+    /**
+     * @param Reseller $data
+     */
+    public function persist($data): void
     {
         if ($plainPassword = $data->getPlainPassword()) {
             $data->setPassword($this->passwordHasher->hashPassword($data, $plainPassword));
@@ -35,7 +38,10 @@ class ResellerDataPersister implements DataPersisterInterface
         $this->entityManager->flush();
     }
 
-    public function remove($data)
+    /**
+     * @param Reseller $data
+     */
+    public function remove($data): void
     {
         $this->entityManager->remove($data);
         $this->entityManager->flush();

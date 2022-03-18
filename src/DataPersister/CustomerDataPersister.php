@@ -25,7 +25,10 @@ class CustomerDataPersister implements DataPersisterInterface
         return $data instanceof Customer;
     }
 
-    public function persist($data)
+    /**
+     * @param Customer $data
+     */
+    public function persist($data): void
     {
         if ($plainPassword = $data->getPlainPassword()) {
             $data->setPassword(
@@ -37,7 +40,10 @@ class CustomerDataPersister implements DataPersisterInterface
         $this->entityManager->flush();
     }
 
-    public function remove($data)
+    /**
+     * @param Customer $data
+     */
+    public function remove($data): void
     {
         $this->entityManager->remove($data);
         $this->entityManager->flush();

@@ -1,0 +1,10 @@
+includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-doctrine/rules.neon
+
+parameters:
+    excludes_analyse:
+        - tests/
+    checkGenericClassInNonGenericObjectType: false
+    ignoreErrors:
+        - '~^Method [a-zA-Z\\]+::[\_a-zA-Z]+\(\) has parameter \$[a-z]+ with no value type specified in iterable type array.~'

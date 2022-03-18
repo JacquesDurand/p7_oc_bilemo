@@ -27,15 +27,18 @@ class AdminPhoneDecorator implements OpenApiFactoryInterface
             foreach ($openApi->getPaths()->getPaths() as $key => $path) {
                 // Hide Post
                 if ($path->getPost() && 'hidden' === $path->getPost()->getSummary()) {
-                    $openApi->getPaths()->addPath($key, $path->withPost(null));
+                    $path = $path->withPost(null);
+                    $openApi->getPaths()->addPath($key, $path);
                 }
                 // Hide Put
                 if ($path->getPut() && 'hidden' === $path->getPut()->getSummary()) {
-                    $openApi->getPaths()->addPath($key, $path->withPut(null));
+                    $path = $path->withPut(null);
+                    $openApi->getPaths()->addPath($key, $path);
                 }
                 // Hide Delete
                 if ($path->getDelete() && 'hidden' === $path->getDelete()->getSummary()) {
-                    $openApi->getPaths()->addPath($key, $path->withDelete(null));
+                    $path = $path->withDelete(null);
+                    $openApi->getPaths()->addPath($key, $path);
                 }
             }
         }

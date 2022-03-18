@@ -41,22 +41,22 @@ class Phone
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $builder;
+    private string $builder;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $model;
+    private string $model;
 
     #[ORM\Column(type: 'text')]
-    private $description;
+    private string $description;
 
     #[ORM\Column(type: 'string', length: 70)]
-    private $color;
+    private string $color;
 
     #[ORM\Column(type: 'integer')]
-    private $price;
+    private int $price;
 
     public function getId(): ?int
     {

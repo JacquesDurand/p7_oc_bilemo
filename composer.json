@@ -92,6 +92,8 @@
         "hautelook/alice-bundle": "^2.10",
         "justinrainbow/json-schema": "^5.2",
         "phpro/grumphp-shim": "^1.9",
+        "phpstan/phpstan": "^1.4",
+        "phpstan/phpstan-doctrine": "^1.2",
         "phpunit/phpunit": "^9.5",
         "qossmic/deptrac-shim": "^0.19.3",
         "symfony/browser-kit": "6.0.*",
