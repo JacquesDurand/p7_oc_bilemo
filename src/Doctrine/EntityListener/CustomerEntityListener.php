@@ -19,9 +19,11 @@ class CustomerEntityListener
         if (null !== $customer->getReseller()) {
             return;
         }
-        /** @var Reseller $reseller */
-        if ($reseller = $this->security->getUser()) {
-            $customer->setReseller($reseller);
+
+        if ($user = $this->security->getUser()) {
+            if ($user instanceof Reseller) {
+                $customer->setReseller($user);
+            }
         }
     }
 }

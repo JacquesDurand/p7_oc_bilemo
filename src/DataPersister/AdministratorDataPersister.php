@@ -22,7 +22,10 @@ final class AdministratorDataPersister implements DataPersisterInterface
         return $data instanceof Administrator;
     }
 
-    public function persist($data)
+    /**
+     * @param Administrator $data
+     */
+    public function persist($data): void
     {
         if ($plainPassword = $data->getPlainPassword()) {
             $data->setPassword(
@@ -34,7 +37,10 @@ final class AdministratorDataPersister implements DataPersisterInterface
         $this->entityManager->flush();
     }
 
-    public function remove($data)
+    /**
+     * @param Administrator $data
+     */
+    public function remove($data): void
     {
         $this->entityManager->remove($data);
         $this->entityManager->flush();

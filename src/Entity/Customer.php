@@ -35,25 +35,25 @@ class Customer implements PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     #[Groups('customer:read')]
-    private $id;
+    private ?int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['customer:read', 'customer:write'])]
-    private $email;
+    private ?string $email;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $password;
+    private ?string $password;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['customer:read', 'customer:write'])]
-    private $phoneNumber;
+    private ?string $phoneNumber;
 
     #[ORM\ManyToOne(targetEntity: Reseller::class, inversedBy: 'customers')]
-    private $reseller;
+    private ?Reseller $reseller;
 
     #[Groups('customer:write')]
     #[SerializedName('password')]
-    private $plainPassword;
+    private ?string $plainPassword;
 
     public function __construct()
     {
@@ -113,7 +113,7 @@ class Customer implements PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPlainPassword(): string
+    public function getPlainPassword(): string|null
     {
         return $this->plainPassword;
     }
@@ -125,7 +125,7 @@ class Customer implements PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         $this->plainPassword = null;
     }
