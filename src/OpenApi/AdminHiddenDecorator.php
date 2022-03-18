@@ -9,7 +9,7 @@ use ApiPlatform\Core\OpenApi\Model\PathItem;
 use ApiPlatform\Core\OpenApi\OpenApi;
 use Symfony\Component\Security\Core\Security;
 
-class AdminPhoneDecorator implements OpenApiFactoryInterface
+class AdminHiddenDecorator implements OpenApiFactoryInterface
 {
     public function __construct(
         private OpenApiFactoryInterface $decorated,
@@ -25,6 +25,11 @@ class AdminPhoneDecorator implements OpenApiFactoryInterface
         if (null === $user || !in_array('ROLE_ADMIN', $user->getRoles())) {
             /** @var PathItem $path */
             foreach ($openApi->getPaths()->getPaths() as $key => $path) {
+                // Hide Post
+                if ($path->getGet() && 'hidden' === $path->getGet()->getSummary()) {
+                    $path = $path->withGet(null);
+                    $openApi->getPaths()->addPath($key, $path);
+                }
                 // Hide Post
                 if ($path->getPost() && 'hidden' === $path->getPost()->getSummary()) {
                     $path = $path->withPost(null);

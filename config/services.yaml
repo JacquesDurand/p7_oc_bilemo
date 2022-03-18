@@ -29,13 +29,17 @@ services:
     ###########
     # OpenApi #
     ##########
+    App\OpenApi\AdminHiddenDecorator:
+        decorates: 'api_platform.openapi.factory'
+        arguments: ['@.inner']
+        
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
         arguments: [ '@.inner' ]
         
-    App\OpenApi\AdminPhoneDecorator:
+    App\OpenAPi\ResellerSchemaConcealerDecorator:
         decorates: 'api_platform.openapi.factory'
-        arguments: ['@.inner']
+        arguments: [ '@.inner' ]
         
     ##################
     # Entitylisteners #
