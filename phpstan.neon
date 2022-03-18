@@ -3,7 +3,7 @@ includes:
     - vendor/phpstan/phpstan-doctrine/rules.neon
 
 parameters:
-    excludes_analyse:
+    excludePaths:
         - tests/
     checkGenericClassInNonGenericObjectType: false
     ignoreErrors:

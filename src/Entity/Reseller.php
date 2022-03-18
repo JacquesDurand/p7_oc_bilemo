@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ResellerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +12,47 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ResellerRepository::class)]
-class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'security_message' => "You don't have the correct rights to execute this operation",
+            'openapi_context' => [
+                'summary' => 'hidden',
+            ],
+        ],
+        'post' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'security_message' => "You don't have the correct rights to execute this operation",
+            'openapi_context' => [
+                'summary' => 'hidden',
+            ],
+        ],
+    ],
+    itemOperations: [
+        'get' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'security_message' => "You don't have the correct rights to execute this operation",
+            'openapi_context' => [
+                'summary' => 'hidden',
+            ],
+        ],
+        'put' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'security_message' => "You don't have the correct rights to execute this operation",
+            'openapi_context' => [
+                'summary' => 'hidden',
+            ],
+        ],
+        'delete' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'security_message' => "You don't have the correct rights to execute this operation",
+            'openapi_context' => [
+                'summary' => 'hidden',
+            ],
+        ],
+    ]
+)] class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
