@@ -10,9 +10,30 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource(
     collectionOperations: [
         'get' => ['security' => "is_granted('IS_AUTHENTICATED_FULLY')"],
+        'post' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'security_message' => "You don't have the correct rights to execute this operation",
+            'openapi_context' => [
+                'summary' => 'hidden',
+            ],
+        ],
     ],
     itemOperations: [
         'get' => ['security' => "is_granted('IS_AUTHENTICATED_FULLY')"],
+        'put' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'security_message' => "You don't have the correct rights to execute this operation",
+            'openapi_context' => [
+                'summary' => 'hidden',
+            ],
+        ],
+        'delete' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'security_message' => "You don't have the correct rights to execute this operation",
+            'openapi_context' => [
+                'summary' => 'hidden',
+            ],
+        ],
     ]
 )]
 class Phone

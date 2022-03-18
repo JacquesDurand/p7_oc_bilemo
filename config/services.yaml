@@ -33,6 +33,10 @@ services:
         decorates: 'api_platform.openapi.factory'
         arguments: [ '@.inner' ]
         
+    App\OpenApi\AdminPhoneDecorator:
+        decorates: 'api_platform.openapi.factory'
+        arguments: ['@.inner']
+        
     ##################
     # Entitylisteners #
     ##################

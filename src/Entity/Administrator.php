@@ -2,16 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ResellerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\AdministratorRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: ResellerRepository::class)]
-class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
+#[ORM\Entity(repositoryClass: AdministratorRepository::class)]
+class Administrator implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,7 +16,7 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private $storeName;
+    private $email;
 
     #[ORM\Column(type: 'json')]
     private $roles = [];
@@ -27,30 +24,21 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private $password;
 
-    #[ORM\OneToMany(targetEntity: Customer::class, mappedBy: 'reseller')]
-    private $customers;
-
-    #[Groups('reseller:write')]
     private $plainPassword;
-
-    public function __construct()
-    {
-        $this->customers = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getStoreName(): ?string
+    public function getEmail(): ?string
     {
-        return $this->storeName;
+        return $this->email;
     }
 
-    public function setStoreName(string $storeName): self
+    public function setEmail(string $email): self
     {
-        $this->storeName = $storeName;
+        $this->email = $email;
 
         return $this;
     }
@@ -62,7 +50,7 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->storeName;
+        return (string) $this->email;
     }
 
     /**
@@ -73,6 +61,7 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_ADMIN';
 
         return array_unique($roles);
     }
@@ -99,48 +88,26 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
     public function eraseCredentials()
     {
         $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection<int, Customer>
-     */
-    public function getCustomers(): Collection
-    {
-        return $this->customers;
-    }
-
-    public function addCustomer(Customer $customer): self
-    {
-        if (!$this->customers->contains($customer)) {
-            $this->customers[] = $customer;
-        }
-
-        return $this;
-    }
-
-    public function removeCustomer(Customer $customer): self
-    {
-        $this->customers->removeElement($customer);
-
-        return $this;
-    }
-
-    public function getPlainPassword()
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword($plainPassword): void
-    {
-        $this->plainPassword = $plainPassword;
-    }
-
     // TODO remove when https://github.com/lexik/LexikJWTAuthenticationBundle/issues/881 is fixed
     public function getUsername(): string
     {
-        return $this->storeName;
+        return $this->email;
     }
 }

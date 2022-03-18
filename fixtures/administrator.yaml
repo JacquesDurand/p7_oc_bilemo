@@ -1,0 +1,7 @@
+App\Entity\Administrator:
+    admin_{1..9}:
+        email: <email()>
+        password: <hashPassword(word())>
+    admin_admin:
+        email: "admin@admin.com"
+        password: <hashPassword('admin')>
