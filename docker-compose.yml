@@ -1,4 +1,4 @@
-version: "3.4"
+version: "3.9"
 
 services:
   php:
@@ -25,7 +25,10 @@ services:
       MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost}/.well-known/mercure
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeMe!}
-
+    depends_on:
+      database:
+        condition: service_healthy
+  
   caddy:
     build:
       context: .
@@ -62,6 +65,8 @@ services:
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-13}-alpine
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER:-symfony} -d ${POSTGRES_DB:-app}
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
       # You should definitely change the password in production
@@ -69,6 +74,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-symfony}
     volumes:
       - db-data:/var/lib/postgresql/data:rw
+    ports:
+      - "49154:5432"
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###

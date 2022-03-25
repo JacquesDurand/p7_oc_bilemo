@@ -72,7 +72,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     private ?string $password;
 
     #[ORM\OneToMany(mappedBy: 'reseller', targetEntity: Customer::class)]
-    private ArrayCollection $customers;
+    private Collection $customers;
 
     #[Groups('reseller:write')]
     private ?string $plainPassword;
