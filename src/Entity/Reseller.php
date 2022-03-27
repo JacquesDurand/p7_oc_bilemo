@@ -71,11 +71,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
     #[ORM\Column(type: 'string')]
     private ?string $password;
 
-    #[ORM\OneToMany(mappedBy: 'reseller', targetEntity: Customer::class)]
+    #[ORM\OneToMany(mappedBy: 'reseller', targetEntity: Customer::class, cascade: ['remove'])]
     private Collection $customers;
 
     #[Groups('reseller:write')]
-    private ?string $plainPassword;
+    private ?string $plainPassword = null;
 
     public function __construct()
     {
@@ -182,9 +182,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
         return $this->plainPassword;
     }
 
-    public function setPlainPassword(?string $plainPassword): void
+    public function setPlainPassword(?string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
+
+        return $this;
     }
 
     // TODO remove when https://github.com/lexik/LexikJWTAuthenticationBundle/issues/881 is fixed
