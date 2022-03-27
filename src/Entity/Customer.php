@@ -49,11 +49,11 @@ class Customer implements PasswordAuthenticatedUserInterface
     private ?string $phoneNumber;
 
     #[ORM\ManyToOne(targetEntity: Reseller::class, inversedBy: 'customers')]
-    private ?Reseller $reseller;
+    private ?Reseller $reseller = null;
 
     #[Groups('customer:write')]
     #[SerializedName('password')]
-    private ?string $plainPassword;
+    private ?string $plainPassword = null;
 
     public function __construct()
     {
