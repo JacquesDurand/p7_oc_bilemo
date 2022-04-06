@@ -160,7 +160,7 @@ check-compose:
 .SILENT: check-port
 check-port: assert-port-number
 	echo -e "=> \e[2mChecking if port: ${PORT_NUMBER} is in use ...\e[0m\n"; \
-	PORT_COUNT=$$(ss -tulnp | grep -c $$PORT_NUMBER); \
+	PORT_COUNT=$$(ss -tuln | grep -c $$PORT_NUMBER); \
 	if [ $$PORT_COUNT -ne 0 ]; then \
 	  echo -e "\e[91mPort number ${PORT_NUMBER} is already in use\e[0m" ; \
 	  exit -1; \

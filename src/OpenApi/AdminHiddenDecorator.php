@@ -7,6 +7,7 @@ namespace App\OpenApi;
 use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\Core\OpenApi\Model\PathItem;
 use ApiPlatform\Core\OpenApi\OpenApi;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 
 class AdminHiddenDecorator implements OpenApiFactoryInterface
@@ -25,29 +26,28 @@ class AdminHiddenDecorator implements OpenApiFactoryInterface
         if (null === $user || !in_array('ROLE_ADMIN', $user->getRoles())) {
             /** @var PathItem $path */
             foreach ($openApi->getPaths()->getPaths() as $key => $path) {
-                // Hide Post
-                if ($path->getGet() && 'hidden' === $path->getGet()->getSummary()) {
-                    $path = $path->withGet(null);
-                    $openApi->getPaths()->addPath($key, $path);
-                }
-                // Hide Post
-                if ($path->getPost() && 'hidden' === $path->getPost()->getSummary()) {
-                    $path = $path->withPost(null);
-                    $openApi->getPaths()->addPath($key, $path);
-                }
-                // Hide Put
-                if ($path->getPut() && 'hidden' === $path->getPut()->getSummary()) {
-                    $path = $path->withPut(null);
-                    $openApi->getPaths()->addPath($key, $path);
-                }
-                // Hide Delete
-                if ($path->getDelete() && 'hidden' === $path->getDelete()->getSummary()) {
-                    $path = $path->withDelete(null);
-                    $openApi->getPaths()->addPath($key, $path);
-                }
+                $path = $this->hideRoute($path, $openApi, $key, Request::METHOD_GET);
+                $path = $this->hideRoute($path, $openApi, $key, Request::METHOD_POST);
+                $path = $this->hideRoute($path, $openApi, $key, Request::METHOD_PUT);
+                $path = $this->hideRoute($path, $openApi, $key, Request::METHOD_DELETE);
             }
         }
 
         return $openApi;
+    }
+
+    private function hideRoute(PathItem $path, OpenApi $openApi, string $key, string $method): PathItem
+    {
+        $get = sprintf('get%s', ucfirst($method));
+        $with = sprintf('with%s', ucfirst($method));
+        if (!method_exists(PathItem::class, $get) || !method_exists(PathItem::class, $with)) {
+            return $path;
+        }
+        if ($path->$get() && 'hidden' === $path->$get()->getSummary()) {
+            $path = $path->$with(null);
+            $openApi->getPaths()->addPath($key, $path);
+        }
+
+        return $path;
     }
 }
