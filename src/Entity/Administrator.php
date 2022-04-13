@@ -6,6 +6,7 @@ use App\Repository\AdministratorRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AdministratorRepository::class)]
 class Administrator implements UserInterface, PasswordAuthenticatedUserInterface
@@ -16,6 +17,10 @@ class Administrator implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Email(
+        mode: 'strict'
+    )]
     private ?string $email;
 
     /**
@@ -27,6 +32,8 @@ class Administrator implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private ?string $password;
 
+    #[Assert\NotBlank]
+    #[Assert\NotCompromisedPassword]
     private ?string $plainPassword;
 
     public function getId(): ?int
