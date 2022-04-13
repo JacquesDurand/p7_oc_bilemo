@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PhoneRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PhoneRepository::class)]
 #[ApiResource(
@@ -49,18 +50,23 @@ class Phone
     private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
     private string $builder;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
     private string $model;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank]
     private string $description;
 
     #[ORM\Column(type: 'string', length: 70)]
+    #[Assert\NotBlank]
     private string $color;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank]
     private int $price;
 
     public function getId(): ?int

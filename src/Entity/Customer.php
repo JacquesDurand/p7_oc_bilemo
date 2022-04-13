@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ORM\EntityListeners(['App\Doctrine\EntityListener\CustomerEntityListener'])]
@@ -39,6 +40,10 @@ class Customer implements PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\Email(
+        mode: 'strict'
+    )]
+    #[Assert\NotBlank]
     private ?string $email;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -53,6 +58,8 @@ class Customer implements PasswordAuthenticatedUserInterface
 
     #[Groups('customer:write')]
     #[SerializedName('password')]
+    #[Assert\NotCompromisedPassword]
+    #[Assert\NotBlank]
     private ?string $plainPassword = null;
 
     public function __construct()

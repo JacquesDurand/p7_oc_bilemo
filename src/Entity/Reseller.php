@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ResellerRepository::class)]
 #[ApiResource(
@@ -52,7 +53,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ],
         ],
     ]
-)] class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
+)]
+class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -60,7 +62,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
     private ?int $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private ?string $storeName;
+    #[Assert\NotBlank]
+    private ?string $storeName = null;
 
     /**
      * @var array<string>
@@ -69,12 +72,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
-    private ?string $password;
+    private ?string $password = null;
 
     #[ORM\OneToMany(mappedBy: 'reseller', targetEntity: Customer::class, cascade: ['remove'])]
     private Collection $customers;
 
     #[Groups('reseller:write')]
+    #[Assert\NotCompromisedPassword]
+    #[Assert\NotBlank]
     private ?string $plainPassword = null;
 
     public function __construct()
