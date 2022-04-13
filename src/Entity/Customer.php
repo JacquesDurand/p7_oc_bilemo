@@ -21,7 +21,6 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
         'put' => [],
         'delete' => [],
     ],
-    attributes: ['pagination_enabled' => false],
     denormalizationContext: [
         'groups' => ['customer:write'],
     ],
