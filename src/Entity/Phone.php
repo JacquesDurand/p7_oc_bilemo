@@ -8,6 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PhoneRepository::class)]
 #[ApiResource(
+    cacheHeaders: [
+        "max_age" => 7200,
+        "shared_max_age" => 7200,
+        "vary" => ["Authorization", "Accept-Language"]
+    ],
     collectionOperations: [
         'get' => ['security' => "is_granted('IS_AUTHENTICATED_FULLY')"],
         'post' => [
