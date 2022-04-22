@@ -127,7 +127,8 @@ RUN xcaddy build \
 	--with github.com/dunglas/mercure \
 	--with github.com/dunglas/mercure/caddy \
 	--with github.com/dunglas/vulcain \
-	--with github.com/dunglas/vulcain/caddy
+	--with github.com/dunglas/vulcain/caddy \
+    --with github.com/caddyserver/cache-handler
 
 FROM caddy:${CADDY_VERSION} AS symfony_caddy
 

@@ -7,11 +7,38 @@
             experimental_http3
         }
     }
+
+    order cache before rewrite
+    log {
+        level debug
+    }
+    cache {
+        api {
+            basepath /api
+            prometheus
+            souin
+        }
+
+        headers Content-Type Authorization
+        log_level debug
+        ttl 1000s
+        default_cache_control public
+    }
 }
 
 {$SERVER_NAME}
 
 log
+
+@match path /api/phones*
+@souin-api path /souin-api*
+
+cache @match {
+    ttl 7200s
+}
+
+cache @souin-api {}
+
 
 route {
     root * /srv/app/public
